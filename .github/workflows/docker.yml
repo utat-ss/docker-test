@@ -44,4 +44,4 @@ jobs:
           push: true
           tags: |
             ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${SHORT_SHA}
+            ghcr.io/${{ github.repository }}:${{ env.SHORT_SHA }}
