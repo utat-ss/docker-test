@@ -22,10 +22,10 @@ RUN /workspace/scripts/setup_west_workspace.sh
 RUN sudo apt install --no-install-recommends -y \
 	openocd minicom
 
-RUN source /.venv/bin/activate && \
-	pip install pyocd && \
-	pyocd pack update && \
-	pyocd pack install stm32h743zi stm32g431rbtx
+# RUN source /.venv/bin/activate && \
+#	pip install pyocd && \
+#	pyocd pack update && \
+#	pyocd pack install stm32h743zi stm32g431rbtx
 
 RUN cat <<EOF > /entrypoint.sh
 	source /.venv/bin/activate && \
