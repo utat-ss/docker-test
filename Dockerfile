@@ -19,6 +19,11 @@ RUN /workspace/scripts/install_dependencies.sh
 RUN /workspace/scripts/setup_python_venv.sh
 RUN /workspace/scripts/setup_west_workspace.sh
 
+# Makes the container indifferent to changes in repository's west.yml
+RUN cp /workspace/west.yml /west.yml
+RUN west config --local manifest.path /west.yml
+###
+
 RUN sudo apt install --no-install-recommends -y \
 	openocd minicom
 
