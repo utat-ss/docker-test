@@ -25,7 +25,7 @@ RUN source /.venv/bin/activate && west config --local manifest.file "../west.yml
 ###
 
 # Change the build directory to speed up builds
-RUN west config build.dir-fmt /build
+RUN source /.venv/bin/activate && west config build.dir-fmt "/build"
 
 RUN sudo apt install --no-install-recommends -y \
 	openocd minicom
