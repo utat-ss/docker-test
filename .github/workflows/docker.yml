@@ -8,6 +8,7 @@ on:
       - 'Dockerfile'
       - 'west.yml'
       - 'scripts/**'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -56,7 +57,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
