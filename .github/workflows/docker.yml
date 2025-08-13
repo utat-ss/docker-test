@@ -49,8 +49,10 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
+          platforms: linux/${{ matrix.arch }}
           tags: |
-            ghcr.io/${{ github.repository }}:${{ matrix.arch }}
+            ghcr.io/${{ github.repository }}:${{ matrix.arch }}:${{ env.SHORT_SHA }}
+            ghcr.io/${{ github.repository }}:${{ matrix.arch }}:latest
 
   consolidate:
     needs: build
@@ -63,10 +65,21 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create and push multi-arch manifest
+      - name: Add SHORT_SHA env
+        run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+
+      - name: Create and push multi-arch manifest with SHA tag
+        run: |
+          docker manifest create ghcr.io/${{ github.repository }}:${{ env.SHORT_SHA }} \
+            ghcr.io/${{ github.repository }}:amd64:${{ env.SHORT_SHA }}  \
+            ghcr.io/${{ github.repository }}:arm64:${{ env.SHORT_SHA }}
+
+          docker manifest push ghcr.io/${{ github.repository }}:${{ env.SHORT_SHA }}
+
+      - name: Create and push multi-arch manifest with 'latest' tag
         run: |
           docker manifest create ghcr.io/${{ github.repository }}:latest \
-            ghcr.io/${{ github.repository }}:amd64 \
-            ghcr.io/${{ github.repository }}:arm64
+            ghcr.io/${{ github.repository }}:amd64:latest  \
+            ghcr.io/${{ github.repository }}:arm64:latest
 
           docker manifest push ghcr.io/${{ github.repository }}:latest
