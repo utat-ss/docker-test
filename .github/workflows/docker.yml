@@ -50,6 +50,8 @@ jobs:
           file: ./Dockerfile
           push: true
           platforms: linux/${{ matrix.arch }}
+          provenance: false
+          sbom: false
           tags: |
             ghcr.io/${{ github.repository }}:${{ matrix.arch }}-${{ env.SHORT_SHA }}
             ghcr.io/${{ github.repository }}:${{ matrix.arch }}-latest
