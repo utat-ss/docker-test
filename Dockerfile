@@ -27,9 +27,6 @@ RUN source /.venv/bin/activate && west config --local manifest.file "../west.yml
 # Change the build directory to speed up builds
 RUN source /.venv/bin/activate && west config build.dir-fmt "/build"
 
-RUN sudo apt install --no-install-recommends -y \
-	openocd minicom
-
 RUN cat <<EOF > /entrypoint.sh
 	source /.venv/bin/activate && \
 	source /zephyr/zephyr-env.sh && \
