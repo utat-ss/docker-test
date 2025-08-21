@@ -30,7 +30,7 @@ RUN source /.venv/bin/activate && west config build.dir-fmt "/build"
 # finch-build is the same command as west build, 
 # except it copies the build artifacts to /workspace/out afterwards
 RUN cat <<EOF > /usr/local/bin/finch-build
-	west build "$@" && \
+	west build $@ && \
 	mkdir -p /workspace/out && \
 	(cp /build/zephyr/zephyr.{elf,hex,bin} /workspace/out &> /dev/null)
 EOF
