@@ -29,15 +29,17 @@ RUN source /.venv/bin/activate && west config build.dir-fmt "/build"
 
 # finch-build is the same command as west build, 
 # except it copies the build artifacts to /workspace/out afterwards
-RUN cat <<EOF > /usr/local/bin/finch-build
-	west build $@ && \
+RUN cat <<'EOF' > /usr/local/bin/finch-build
+	#!/bin/bash
+	west build "$@" && \
 	mkdir -p /workspace/out && \
 	(cp /build/zephyr/zephyr.{elf,hex,bin} /workspace/out &> /dev/null)
 EOF
 
 RUN chmod +x /usr/local/bin/finch-build
 
-RUN cat <<EOF > /entrypoint.sh
+RUN cat <<'EOF' > /entrypoint.sh
+	#!/bin/bash
 	source /.venv/bin/activate && \
 	source /zephyr/zephyr-env.sh && \
 	source /workspace/finch-flight-software-env.sh && \
