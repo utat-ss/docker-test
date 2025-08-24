@@ -5,9 +5,9 @@
 
 set -e
 
-sudo apt update
+apt update
 
-sudo apt install --no-install-recommends -y \
+apt install --no-install-recommends -y \
     git \
     cmake \
     ninja-build \
@@ -27,4 +27,5 @@ sudo apt install --no-install-recommends -y \
     make \
     gcc \
     libsdl2-dev \
-    libmagic1
+    libmagic1 \
+    dos2unix
