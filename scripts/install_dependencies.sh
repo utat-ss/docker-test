@@ -27,5 +27,4 @@ apt install --no-install-recommends -y \
     make \
     gcc \
     libsdl2-dev \
-    libmagic1 \
-    dos2unix
+    libmagic1
