@@ -11,10 +11,10 @@ if ($args.Count -ne 0 -and $args.Count -ne 1) {
 
 while ($true) {
     if ($args.Count -eq 0) {
-        pyocd gdbserver --allow-remote --pack "$ScriptDir\..\packs\stm32g4.pack" --pack "$ScriptDir\..\packs\stm32h7.pack"
+        pyocd gdbserver --allow-remote --pack "$ScriptDir\..\blobs\stm32g4.pack" --pack "$ScriptDir\..\blobs\stm32h7.pack"
     }
     elseif ($args.Count -eq 1) {
-        pyocd gdbserver --allow-remote --pack "$ScriptDir\..\packs\stm32g4.pack" --pack "$ScriptDir\..\packs\stm32h7.pack" $args[0]
+        pyocd gdbserver --allow-remote --pack "$ScriptDir\..\blobs\stm32g4.pack" --pack "$ScriptDir\..\blobs\stm32h7.pack" $args[0]
     }
 
     if ($LastExitCode -ne 0) {
