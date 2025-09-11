@@ -1,17 +1,20 @@
-name: Build and Push Docker Image to GHCR
+## This workflow is triggered when files related to building the container have changed.
+## If the branch is not main, the container will not be pushed to the registry
+
+name: Build Docker Image
 
 on:
   push:
-    branches:
-      - 'main'
     paths:
       - 'Dockerfile'
       - 'west.yml'
-      - 'scripts/**'
+      - 'scripts/install_dependencies.sh'
+      - 'scripts/setup_python_venv.sh'
+      - 'scripts/setup_west_workspace.sh'
   workflow_dispatch:
 
 jobs:
-  build:
+  build-separately:
     strategy:
       matrix:
         include:
@@ -43,12 +46,12 @@ jobs:
       - name: Add SHORT_SHA env
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
 
-      - name: Build and push a separate image for ${{ matrix.arch }}
+      - name: Build for ${{ matrix.arch }}, push = ${{ github.ref == 'refs/heads/main' }}
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
-          push: true
+          push: ${{ github.ref == 'refs/heads/main' }}
           platforms: linux/${{ matrix.arch }}
           provenance: false
           sbom: false
@@ -57,8 +60,9 @@ jobs:
             ghcr.io/${{ github.repository }}:${{ matrix.arch }}-latest
 
   consolidate:
-    needs: build
+    needs: build-separately
     runs-on: ubuntu-24.04
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
