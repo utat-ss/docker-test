@@ -16,7 +16,7 @@ RUN /workspace/scripts/install_dependencies.sh
 RUN /workspace/scripts/setup_python_venv.sh
 RUN /workspace/scripts/setup_west_workspace.sh
 
-# Ignore changes in /workspace/west.yml (mounted from repo) and use /west.yml.
+# Ignooooore changes in /workspace/west.yml (mounted from repo) and use /west.yml.
 RUN cp /workspace/west.yml /west.yml
 RUN source /.venv/bin/activate && west config --local manifest.file "../west.yml"
 ###
