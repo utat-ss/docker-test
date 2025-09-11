@@ -15,9 +15,9 @@ fi
 
 while true; do
     if [ $# -eq 0 ]; then
-        pyocd gdbserver --allow-remote --pack "$SCRIPT_DIR"/../packs/stm32g4.pack --pack "$SCRIPT_DIR"/../packs/stm32h7.pack
+        pyocd gdbserver --allow-remote --pack "$SCRIPT_DIR"/../blobs/stm32g4.pack --pack "$SCRIPT_DIR"/../blobs/stm32h7.pack
     elif [ $# -eq 1 ]; then
-        pyocd gdbserver --allow-remote --pack "$SCRIPT_DIR"/../packs/stm32g4.pack --pack "$SCRIPT_DIR"/../packs/stm32h7.pack --target $1
+        pyocd gdbserver --allow-remote --pack "$SCRIPT_DIR"/../blobs/stm32g4.pack --pack "$SCRIPT_DIR"/../blobs/stm32h7.pack --target $1
     fi
 
     if [ $? -ne 0 ]; then
