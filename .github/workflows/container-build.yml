@@ -14,7 +14,7 @@ on:
       - 'scripts/setup_west_workspace.sh'
 
 jobs:
-  build-separately:
+  build:
     strategy:
       matrix:
         include:
