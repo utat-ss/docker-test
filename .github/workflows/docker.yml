@@ -1,17 +1,28 @@
-## This workflow is triggered when files related to building the container have changed.
-## If the branch is not main, the container will not be pushed to the registry
+## The container is pushed to the registry only when the related files are updated on the main branch.
 
 name: Build Docker Image
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
     paths:
       - 'Dockerfile'
       - 'west.yml'
       - 'scripts/install_dependencies.sh'
       - 'scripts/setup_python_venv.sh'
       - 'scripts/setup_west_workspace.sh'
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Dockerfile'
+      - 'west.yml'
+      - 'scripts/install_dependencies.sh'
+      - 'scripts/setup_python_venv.sh'
+      - 'scripts/setup_west_workspace.sh'
 
 jobs:
   build-separately:
