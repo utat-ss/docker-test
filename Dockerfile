@@ -24,13 +24,17 @@ RUN source /.venv/bin/activate && west config --local manifest.file "../west.yml
 # Change the build directory to speed up builds
 RUN source /.venv/bin/activate && west config build.dir-fmt "/build"
 
-RUN cat <<EOF > /entrypoint.sh
+RUN cat <<EOF > /env-setup.sh
 	source /.venv/bin/activate && \
 	source /zephyr/zephyr-env.sh && \
-	source /workspace/finch-flight-software-env.sh && \
-	/bin/bash
+	source /workspace/finch-flight-software-env.sh
 EOF
 
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /env-setup.sh
+
+RUN cat <<EOF > /entrypoint.sh
+	source /env-setup.sh && \
+	exec /bin/bash
+EOF
 
 ENTRYPOINT "/entrypoint.sh"
