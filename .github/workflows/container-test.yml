@@ -33,20 +33,11 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Build Docker image
+        run: docker build -t finch-image .
 
-      - name: Log in to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run container
+        run: docker run -di --name finch-container finch-image sleep infinity
 
-      - name: Build for ${{ matrix.arch }}
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          push: false
-          platforms: linux/${{ matrix.arch }}
+      - name: west build
+        run: docker exec finch-container /bin/bash -c "source /env-setup.sh && west build -p -b native_sim/native/64 /zephyr/samples/basic/blinky"
