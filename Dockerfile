@@ -37,4 +37,6 @@ RUN cat <<EOF > /entrypoint.sh
 	exec /bin/bash
 EOF
 
+RUN chmod +x /entrypoint.sh
+
 ENTRYPOINT "/entrypoint.sh"
