@@ -5,9 +5,9 @@
 
 set -e
 
-apt update
+apt-get update
 
-apt install --no-install-recommends -y \
+apt-get install --no-install-recommends -y \
     git \
     cmake \
     ninja-build \
@@ -26,5 +26,7 @@ apt install --no-install-recommends -y \
     file \
     make \
     gcc \
+    gcc-multilib \
+    g++-multilib \
     libsdl2-dev \
     libmagic1
